@@ -1,6 +1,6 @@
 # Go Funpics
 
-Gives random funny picture url for bot
+Gives random funny picture url for chat bots
 
 ## Usage
 
