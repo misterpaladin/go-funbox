@@ -14,8 +14,8 @@ var providers = []func() string{
 	provider1,
 }
 
-// Get get random picture url
-func Get() (url string) {
+// Picture get random picture url
+func Picture() (url string) {
 	return providers[random(0, len(providers)-1)]()
 }
 

@@ -1,15 +1,16 @@
-# Go Funpics
+# Go Funbox
 
 Gives random funny picture url for chat bots
 
 ## Usage
 
-`go get github.com/misterpaladin/go-funpics`
+`go get github.com/misterpaladin/go-funbox`
 
 ```
 import (
-  funpics "github.com/misterpaladin/go-funpics"
+  funbox "github.com/misterpaladin/go-funbox"
 )
 
-url := funpics.Get()
+picture := funbox.Picture()
+joke := funbox.Joke()
 ```
