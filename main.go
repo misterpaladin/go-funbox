@@ -9,27 +9,70 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-var providers = []func() string{
-	provider0,
-	provider1,
+var pictureProviders = []func() string{
+	picProvider0,
+	picProvider1,
+}
+
+var jokeProviders = []func() string{
+	jokeProvider0,
 }
 
 // Picture get random picture url
 func Picture() (url string) {
-	return providers[random(0, len(providers)-1)]()
+	var rand = 0
+	if len(pictureProviders) > 1 {
+		rand = random(0, len(pictureProviders)-1)
+	}
+
+	return pictureProviders[rand]()
 }
 
-// GetFrom get from specific provider
-func GetFrom(provider int) (url string) {
-	if len(providers)-1 < provider {
+// Joke get random joke text
+func Joke() (text string) {
+	var rand = 0
+	if len(jokeProviders) > 1 {
+		rand = random(0, len(jokeProviders)-1)
+	}
+	return jokeProviders[rand]()
+}
+
+// PictureFrom get picture from specific provider
+func PictureFrom(provider int) (url string) {
+	if len(pictureProviders)-1 < provider {
 		fmt.Println("No such provider")
 		return ""
 	}
 
-	return providers[provider]()
+	return pictureProviders[provider]()
 }
 
-func provider0() (url string) {
+// JokeFrom get picture from specific provider
+func JokeFrom(provider int) (url string) {
+	if len(jokeProviders)-1 < provider {
+		fmt.Println("No such provider")
+		return ""
+	}
+
+	return jokeProviders[provider]()
+}
+
+func jokeProvider0() (text string) {
+	texts := make([]string, 0)
+
+	textDoc, _ := goquery.NewDocument("https://pda.anekdot.ru/random/anekdot/")
+	textDoc.Find(".topicbox .text").Each(func(i int, s *goquery.Selection) {
+		text := s.Text()
+		fmt.Println(text)
+		texts = append(texts, text)
+	})
+
+	text = texts[random(0, len(texts)-1)]
+
+	return text
+}
+
+func picProvider0() (url string) {
 	var first = 1
 	var last int
 
@@ -55,7 +98,7 @@ func provider0() (url string) {
 	return url
 }
 
-func provider1() (url string) {
+func picProvider1() (url string) {
 	var first = 1
 	var last int
 
