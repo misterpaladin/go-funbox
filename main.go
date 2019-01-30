@@ -16,7 +16,7 @@ var providers = []func() string{
 
 // Get get random picture url
 func Get() (url string) {
-	return providers[1]()
+	return providers[random(0, len(providers)-1)]()
 }
 
 // GetFrom get from specific provider
