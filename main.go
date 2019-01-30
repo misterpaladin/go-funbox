@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -62,12 +63,11 @@ func jokeProvider0() (text string) {
 
 	textDoc, _ := goquery.NewDocument("https://pda.anekdot.ru/random/anekdot/")
 	textDoc.Find(".topicbox .text").Each(func(i int, s *goquery.Selection) {
-		text := s.Text()
-		fmt.Println(text)
+		text, _ := s.Html()
 		texts = append(texts, text)
 	})
 
-	text = texts[random(0, len(texts)-1)]
+	text = strings.Replace(texts[random(0, len(texts)-1)], "<br/>", "\n", -1)
 
 	return text
 }
