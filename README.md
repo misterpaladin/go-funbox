@@ -1,6 +1,6 @@
 # Go Funbox
 
-Gives random funny picture url for chat bots
+Gives random funny pictures and jokes for chat bots
 
 ## Usage
 
@@ -14,3 +14,5 @@ import (
 picture := funbox.Picture()
 joke := funbox.Joke()
 ```
+
+Telegram bot: https://t.me/pldn_jokebox_bot
