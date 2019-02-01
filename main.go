@@ -3,6 +3,7 @@ package funpics
 import (
 	"fmt"
 	"math/rand"
+	"net/http"
 	"strconv"
 	"strings"
 	"time"
@@ -73,15 +74,27 @@ func jokeProvider0() (text string) {
 }
 
 func picProvider0() (url string) {
-	var first = 1
-	var last int
+	url = picProvider0Get()
+	resp, err := http.Get(url)
 
-	pagesDoc, _ := goquery.NewDocument("http://vse-shutochki.ru/kartinki-prikolnye")
-	pagesDoc.Find(".pagination ul li a").Each(func(i int, s *goquery.Selection) {
-		if i > 0 {
-			last, _ = strconv.Atoi(s.Text())
-		}
-	})
+	for err != nil || resp.StatusCode != 200 {
+		url = picProvider0Get()
+		resp, _ = http.Get(url)
+	}
+
+	return url
+}
+
+func picProvider0Get() (url string) {
+	var first = 1
+	var last = 2688
+
+	// pagesDoc, _ := goquery.NewDocument("http://vse-shutochki.ru/kartinki-prikolnye")
+	// pagesDoc.Find(".pagination ul li a").Each(func(i int, s *goquery.Selection) {
+	// 	if i > 0 {
+	// 		last, _ = strconv.Atoi(s.Text())
+	// 	}
+	// })
 
 	page := random(first, last)
 	picturesDoc, _ := goquery.NewDocument("http://vse-shutochki.ru/kartinki-prikolnye/" + strconv.Itoa(page))
