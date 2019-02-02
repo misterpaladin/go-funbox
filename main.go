@@ -2,13 +2,12 @@ package funpics
 
 import (
 	"fmt"
-	"math/rand"
 	"net/http"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/misterpaladin/goutils"
 )
 
 var pictureProviders = []func() string{
@@ -24,7 +23,7 @@ var jokeProviders = []func() string{
 func Picture() (url string) {
 	var rand = 0
 	if len(pictureProviders) > 1 {
-		rand = random(0, len(pictureProviders)-1)
+		rand = goutils.Random(0, len(pictureProviders)-1)
 	}
 
 	return pictureProviders[rand]()
@@ -34,7 +33,7 @@ func Picture() (url string) {
 func Joke() (text string) {
 	var rand = 0
 	if len(jokeProviders) > 1 {
-		rand = random(0, len(jokeProviders)-1)
+		rand = goutils.Random(0, len(jokeProviders)-1)
 	}
 	return jokeProviders[rand]()
 }
@@ -68,7 +67,7 @@ func jokeProvider0() (text string) {
 		texts = append(texts, text)
 	})
 
-	text = strings.Replace(texts[random(0, len(texts)-1)], "<br/>", "\n", -1)
+	text = strings.Replace(texts[goutils.Random(0, len(texts)-1)], "<br/>", "\n", -1)
 
 	return text
 }
@@ -96,7 +95,7 @@ func picProvider0Get() (url string) {
 	// 	}
 	// })
 
-	page := random(first, last)
+	page := goutils.Random(first, last)
 	picturesDoc, _ := goquery.NewDocument("http://vse-shutochki.ru/kartinki-prikolnye/" + strconv.Itoa(page))
 
 	pictures := make([]string, 0)
@@ -106,7 +105,7 @@ func picProvider0Get() (url string) {
 		pictures = append(pictures, page)
 	})
 
-	url = pictures[random(0, len(pictures)-1)]
+	url = pictures[goutils.Random(0, len(pictures)-1)]
 
 	return url
 }
@@ -122,7 +121,7 @@ func picProvider1() (url string) {
 		}
 	})
 
-	page := random(first, last)
+	page := goutils.Random(first, last)
 	picturesDoc, _ := goquery.NewDocument("https://bugaga.ru/tags/прикольные+картинки/page/" + strconv.Itoa(page))
 
 	pictures := make([]string, 0)
@@ -132,12 +131,7 @@ func picProvider1() (url string) {
 		pictures = append(pictures, page)
 	})
 
-	url = pictures[random(0, len(pictures)-1)]
+	url = pictures[goutils.Random(0, len(pictures)-1)]
 
 	return url
-}
-
-func random(min, max int) int {
-	rand.Seed(time.Now().Unix())
-	return rand.Intn(max-min) + min
 }
